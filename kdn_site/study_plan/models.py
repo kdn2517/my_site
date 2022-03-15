@@ -8,6 +8,12 @@ class Category(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
+        ordering = ['-id']
+
+
 class SubCategory(models.Model):
     title = models.CharField(max_length=150, db_index=True, verbose_name='Наименование '
                                                                          'подкатегории')
@@ -18,13 +24,19 @@ class SubCategory(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name = 'Подкатегория'
+        verbose_name_plural = 'Подкатегории'
+        ordering = ['-id']
+
 class Subjects(models.Model):
     title = models.CharField(max_length=150, verbose_name='Название')
     content = models.TextField(blank=True, verbose_name='Контент')
     planned_to_study = models.DateTimeField(auto_now_add=True, verbose_name='Дата начала')
     last_study = models.DateTimeField(auto_now=True, verbose_name='Последнее изучение')
     study_time = models.IntegerField(verbose_name='Время изучения')
-    photo = models.ImageField(upload_to='photo/%Y/%m/%d/', verbose_name='Фото', blank=True,)
+    photo = models.ImageField(upload_to='photo/%Y/%m/%d/', verbose_name='Фото', blank=True,
+                              default='photo/2022/03/14/Ariya_1280X1024.jpg')
     studied = models.BooleanField(default=True, verbose_name='Изучено?')
     category = models.ForeignKey('SubCategory', on_delete=models.PROTECT,
                                  verbose_name='Подкатегория')
